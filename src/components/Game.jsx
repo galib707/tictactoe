@@ -8,7 +8,7 @@ function Game(props) {
   let [isXplaying, setIsXPlaying] = useState(true);
   let [gameStatus, setGameStatus] = useState("Start");
 
-  let [history, setHistory] = useState([]);
+  let [history, setHistory] = useState([JSON.stringify(startingBoard)]);
 
   let handleClick = (row, col) => {
     if (gameStatus !== "Game in progress" && gameStatus !== "Start") {
@@ -30,9 +30,10 @@ function Game(props) {
   };
 
   const resetMoves = (idx) => {
-    setCurrBoard(JSON.parse(history[idx]));
+    setCurrBoard(JSON.parse(history[idx-1]));
     setHistory(() => history.slice(0, idx));
-    setIsXPlaying(() => (idx % 2 === 0 ? false : true));
+    setIsXPlaying((cu) => (idx % 2 === 0 ? false : true));
+    setGameStatus((currGameStatus) => currGameStatus = ticTacToeGameStatus(JSON.parse(history[idx-1])));
   };
 
   return (
@@ -41,7 +42,7 @@ function Game(props) {
       <p> {gameStatus}</p>
       <Board updateBoard={handleClick} currBoard={currBoard} />
       <div className="container_for_history">
-        <p>Undo</p>
+        
         {history.map((moves, idx) => (
           <Moves id={idx} resetMoves={resetMoves} />
         ))}

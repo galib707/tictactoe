@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function Square(props) {
-  console.log(props);
+  // console.log(props);
   return (
     <div
       onClick={(e) => props.updateBoard(props.row, props.col)}
